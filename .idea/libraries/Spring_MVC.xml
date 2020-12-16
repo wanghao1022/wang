@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Spring MVC" type="spring-mvc">
+    <CLASSES>
+      <root url="jar://D:/04-SSM-CRM/04-1SpringMVC/jars/spring-webmvc-5.2.3.RELEASE.jar!/" />
+      <root url="jar://D:/04-SSM-CRM/04-1SpringMVC/jars/spring-web-5.2.3.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

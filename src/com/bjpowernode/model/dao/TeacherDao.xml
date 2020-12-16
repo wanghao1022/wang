@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.model.dao.TeacherDao">
+  <resultMap id="BaseResultMap" type="com.bjpowernode.entity.Teacher">
+    <id column="tea_id" jdbcType="INTEGER" property="teaId" />
+    <result column="tea_name" jdbcType="VARCHAR" property="teaName" />
+    <result column="tea_age" jdbcType="INTEGER" property="teaAge" />
+    <result column="tea_sex" jdbcType="VARCHAR" property="teaSex" />
+    <result column="tea_date" jdbcType="DATE" property="teaDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tea_id, tea_name, tea_age, tea_sex,tea_date
+  </sql>
+
+  <sql id="Base_Selected_Condition">
+
+    where 1=1
+
+    <if test="teacher.teaName != null and teacher.teaName !=''">
+      and tea_name like concat('%',#{teacher.teaName},'%')
+    </if>
+    <if test="teacher.teaSex != null and teacher.teaSex !=''">
+      and tea_sex = #{teacher.teaSex}
+    </if>
+    <if test="teacher.teaAgeBegin != null">
+      and tea_age <![CDATA[>=]]> #{teacher.teaAgeBegin}
+    </if>
+    <if test="teacher.teaAgeEnd != null">
+      and tea_age <![CDATA[<=]]> #{teacher.teaAgeEnd}
+    </if>
+    <if test="teacher.teaDateBegin !=null and teacher.teaDateBegin!= '' ">
+      and tea_date <![CDATA[>=]]> STR_TO_DATE(#{teacher.teaDateBegin},'%Y-%m-%d')
+    </if>
+    <if test="teacher.teaDateEnd !=null and teacher.teaDateEnd!= '' ">
+      and tea_date <![CDATA[<=]]> STR_TO_DATE(#{teacher.teaDateEnd},'%Y-%m-%d')
+    </if>
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where tea_id = #{teaId,jdbcType=INTEGER}
+  </select>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from t_teacher
+    </select>
+
+  <select id="selectTotalCount"  resultType="int" >
+    select  count(1)
+    from t_teacher
+  </select>
+
+  <select id="searchTotalCount"  resultType="int" >
+    select  count(1)
+    from t_teacher
+    <include refid="Base_Selected_Condition"/>
+  </select>
+
+
+  <select id="selectByBatch" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_teacher
+    limit #{pager.skipNo}, #{pager.pageNo}
+  </select>
+
+  <select id="searchByBatch" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_teacher
+
+    <include refid="Base_Selected_Condition" />
+    limit #{pager.skipNo}, #{pager.pageNo}
+  </select>
+
+
+  <select id="selectByTeacher" resultMap="BaseResultMap" parameterType="com.bjpowernode.entity.Teacher">
+    select
+    <include refid="Base_Column_List" />
+    from t_teacher
+    where  1=1
+    <if test="teaName != null and teaName !=''">
+      and tea_name like concat('%',#{teaName},'%')
+    </if>
+    <if test="teaSex != null and teaSex !=''">
+      and tea_sex = #{teaSex}
+    </if>
+    <if test="teaAgeBegin != null">
+      and tea_age <![CDATA[>=]]> #{teaAgeBegin}
+    </if>
+    <if test="teaAgeEnd != null">
+      and tea_age <![CDATA[<=]]> #{teaAgeEnd}
+    </if>
+    <if test="teaDateBegin !=null and teaDateBegin!= '' ">
+      and tea_date <![CDATA[>=]]> STR_TO_DATE(#{teaDateBegin},'%Y-%m-%d')
+    </if>
+    <if test="teaDateEnd !=null and teaDateEnd!= '' ">
+      and tea_date <![CDATA[<=]]> STR_TO_DATE(#{teaDateEnd},'%Y-%m-%d')
+    </if>
+  </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_teacher
+    where tea_id = #{teaId,jdbcType=INTEGER}
+  </delete>
+
+
+  <delete id="deleteBatch">
+    delete from t_teacher
+    where tea_id in
+    <foreach collection="array" open="(" close=")" item="teaId" separator=",">
+      #{teaId}
+    </foreach>
+  </delete>
+
+
+
+  <insert id="insert" keyColumn="tea_id" keyProperty="teaId" parameterType="com.bjpowernode.entity.Teacher" useGeneratedKeys="true">
+    insert into t_teacher (tea_name, tea_age, tea_sex
+      )
+    values (#{teaName,jdbcType=VARCHAR}, #{teaAge,jdbcType=INTEGER}, #{teaSex,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="tea_id" keyProperty="teaId" parameterType="com.bjpowernode.entity.Teacher" useGeneratedKeys="true">
+    insert into t_teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teaName != null">
+        tea_name,
+      </if>
+      <if test="teaAge != null">
+        tea_age,
+      </if>
+      <if test="teaSex != null">
+        tea_sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teaName != null">
+        #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="teaAge != null">
+        #{teaAge,jdbcType=INTEGER},
+      </if>
+      <if test="teaSex != null">
+        #{teaSex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.entity.Teacher">
+    update t_teacher
+    <set>
+      <if test="teaName != null">
+        tea_name = #{teaName,jdbcType=VARCHAR},
+      </if>
+      <if test="teaAge != null">
+        tea_age = #{teaAge,jdbcType=INTEGER},
+      </if>
+      <if test="teaSex != null">
+        tea_sex = #{teaSex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tea_id = #{teaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.entity.Teacher">
+    update t_teacher
+    set tea_name = #{teaName,jdbcType=VARCHAR},
+      tea_age = #{teaAge,jdbcType=INTEGER},
+      tea_sex = #{teaSex,jdbcType=VARCHAR}
+    where tea_id = #{teaId,jdbcType=INTEGER}
+  </update>
+</mapper>

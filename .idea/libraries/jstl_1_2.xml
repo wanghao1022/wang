@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jstl-1.2">
+    <CLASSES>
+      <root url="jar://D:/04-SSM-CRM/04-1SpringMVC/jars/jstl/jstl-1.2.jar!/" />
+      <root url="jar://D:/04-SSM-CRM/04-1SpringMVC/jars/jstl/jstl-impl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

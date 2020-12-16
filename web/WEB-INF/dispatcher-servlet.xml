@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--配置注解扫描路径-->
+    <context:component-scan base-package="com.bjpowernode.controller"/>
+
+    <!--打开springmvc映射器和适配器-->
+    <mvc:annotation-driven>
+        <!-- 配置Fastjson支持 -->
+        <mvc:message-converters>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>QuoteFieldNames</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!--对模型视图名称进行解析，即在模型视图名称添加前后缀-->
+    <!--声明spring 框架中的视图解析器 帮助开发人员设置视图文件-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/pages/" p:suffix=".jsp"/>
+
+    <!-- 以下路径不会被当控制器拦截，当静态资源处理 -->
+  <!--  <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/js/**" location="/js/" />-->
+    <!--  /images/*  父目录是 /images/的，例如: /images/a.jpg， /images/timg.jpg
+
+             /images/**  祖先目录是 /images/的，例如: /images/a.jpg，/images/a/b.jpg,/images/a/b/c/d/e/f/a.jpg
+
+             换句话表述就是：所有以/images/打头的请求
+    -->
+    <!-- 由springmvc对请求进行分类，如果是静态资源，则交给DefaultServlet处理 -->
+    <mvc:default-servlet-handler/>
+<!--
+    &lt;!&ndash; 拦截器配置 &ndash;&gt;
+    <mvc:interceptors>
+
+        &lt;!&ndash; 多个拦截器将顺序执行 &ndash;&gt;
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/> &lt;!&ndash; 拦截路径 &ndash;&gt;
+            <mvc:exclude-mapping path="/login"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
+            <mvc:exclude-mapping path="/saveLogin"/>&lt;!&ndash; 不拦截路径 &ndash;&gt;
+
+            <bean class="com.bjpowernode.util.LoginInterceptor"></bean>
+        </mvc:interceptor>
+
+    </mvc:interceptors>-->
+
+</beans>

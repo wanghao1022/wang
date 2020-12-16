@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="01-ssm:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/01_ssm_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="01-ssm/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="01-ssm" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="log4j-1.2.14" />
+          <element id="library" level="project" name="mybatis" />
+          <element id="library" level="project" name="Spring" />
+          <element id="library" level="project" name="Spring MVC" />
+          <element id="library" level="project" name="jstl-1.2" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.model.dao.UserDao">
+  <resultMap id="BaseResultMap" type="com.bjpowernode.entity.User">
+    <id column="t_pid" jdbcType="INTEGER" property="pid" />
+    <result column="t_uid" jdbcType="INTEGER" property="uid" />
+    <result column="t_username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pid, `uid`, username
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user1
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByAll"  resultMap="BaseResultMap">
+    select
+    t_pid,t_username
+    from t_user1
+    where t_pid = #{pid,jdbcType=INTEGER} and t_username =#{username}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user1
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="pid" keyProperty="pid" parameterType="com.bjpowernode.entity.User" useGeneratedKeys="true">
+    insert into t_user1 (`uid`, username)
+    values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="pid" keyProperty="pid" parameterType="com.bjpowernode.entity.User" useGeneratedKeys="true">
+    insert into t_user1
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.entity.User">
+    update t_user1
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.entity.User">
+    update t_user1
+    set `uid` = #{uid,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>
